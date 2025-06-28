@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import Projects from './components/Projects';
+import Skills from './components/Skills';
+import About from './components/About';
+import Contact from './components/Contact';
+import Background from './components/Background';
+import './index.css';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Background /> {/* Moved outside the div to render at body level */}
+      <div className="relative min-h-screen text-white font-mono overflow-x-hidden">
+        <Navbar />
+        <main className="pt-16 px-4">
+          <Hero />
+          <Projects />
+          <Skills />
+          <About />
+          <Contact />
+        </main>
+      </div>
+    </Router>
   );
 }
-
-export default App;
