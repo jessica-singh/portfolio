@@ -4,9 +4,21 @@ import cors from 'cors';
 import fs from 'fs';
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// ✅ Allow only your Vercel frontend to access this backend
+const allowedOrigins = ['https://jessicasingh.vercel.app'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 app.use(express.json());
 
 app.post('/api/contact', (req, res) => {
