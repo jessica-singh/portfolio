@@ -1,121 +1,67 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-// Animation variants for project cards
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
-};
+import React from 'react';
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const Projects = () => {
-  const [filter, setFilter] = useState('all');
-
-  // Memoized project data to avoid re-creation every render
-  const projects = useMemo(() => [
-    { id: 1, title: 'Supervised Learning Models', category: 'ml', tags: ['Classification', 'Regression', 'Data Science'] },
-    { id: 2, title: '2D Time Series Analysis', category: 'ml', tags: ['Time Series', 'Forecasting', 'Pattern Recognition'] },
-    { id: 3, title: 'Resume Parser using NLP', category: 'ml', tags: ['NLP', 'Information Extraction', 'Text Processing'] },
-    { id: 4, title: 'Portfolio Website', category: 'web', tags: ['React', 'Tailwind', 'JavaScript'] },
-    { id: 5, title: 'E-commerce Platform', category: 'web', tags: ['Node.js', 'MongoDB', 'Express'] },
-  ], []);
-
-  const filteredProjects = useMemo(() => {
-    return filter === 'all' ? projects : projects.filter(p => p.category === filter);
-  }, [filter, projects]);
-
-  const handleFilterChange = useCallback((newFilter) => {
-    setFilter(newFilter);
-  }, []);
-
   return (
-    <section id="projects" className="py-20 min-h-screen">
+    <section id="projects" className="py-20 px-6 text-white">
 
-      <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
-        Projects Portfolio
+      <h2 className="text-4xl sm:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
+        Projects
       </h2>
-      <p className="text-center mb-10 text-gray-400 max-w-2xl mx-auto">
-        A diverse collection of projects showcasing my expertise across artificial intelligence and web development.
+      <p className="text-center mb-12 text-gray-400 max-w-xl mx-auto">
+        Here’s a glimpse of my full-stack Instagram-style social media app — Jessify.
       </p>
 
-      {/* Filter Buttons */}
-      <div className="flex justify-center space-x-4 mb-10 flex-wrap gap-4">
-        <motion.button
-          onClick={() => handleFilterChange('all')}
-          className={`px-4 py-2 rounded-full font-medium text-white ${
-            filter === 'all' ? 'bg-purple-600 ring-2 ring-purple-400' : 'bg-gray-700'
-          } hover:bg-purple-500 transition-all duration-300`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          All Projects ({projects.length})
-        </motion.button>
-        <motion.button
-          onClick={() => handleFilterChange('ml')}
-          className={`px-4 py-2 rounded-full font-medium text-white ${
-            filter === 'ml' ? 'bg-purple-600 ring-2 ring-purple-400' : 'bg-gray-700'
-          } hover:bg-purple-500 transition-all duration-300`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Machine Learning / AI ({projects.filter(p => p.category === 'ml').length})
-        </motion.button>
-        <motion.button
-          onClick={() => handleFilterChange('web')}
-          className={`px-4 py-2 rounded-full font-medium text-white ${
-            filter === 'web' ? 'bg-purple-600 ring-2 ring-purple-400' : 'bg-gray-700'
-          } hover:bg-purple-500 transition-all duration-300`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Web Development ({projects.filter(p => p.category === 'web').length})
-        </motion.button>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="max-w-sm mx-auto bg-zinc-900 border border-zinc-700 rounded-xl shadow-lg p-4"
+      >
+        <h3 className="text-xl font-semibold text-purple-300 mb-3 text-center">
+          Jessify – Instagram Clone
+        </h3>
 
-      {/* Project Cards */}
-      <AnimatePresence>
-        {filteredProjects.length > 0 ? (
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+        {/* Preview image */}
+        <div className="rounded-md overflow-hidden mb-4">
+          <img
+            src="/images/jesssify.png"
+            alt="Jessify"
+            className="w-full h-48 object-cover"
+          />
+        </div>
+
+        {/* Tech stack */}
+        <div className="flex flex-wrap justify-center gap-1 text-xs text-purple-400 mb-4">
+          {['React', 'Node.js', 'MongoDB', 'JWT', 'Tailwind', 'Render + Vercel'].map((tech) => (
+            <span key={tech} className="bg-purple-900/30 px-2 py-0.5 rounded-full border border-purple-600">
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* Buttons */}
+        <div className="flex justify-center gap-3 text-sm">
+          <a
+            href="https://jesssify.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 px-4 py-1.5 bg-purple-600 hover:bg-purple-700 rounded-md text-white font-medium"
           >
-            {filteredProjects.map(project => (
-              <motion.div
-                key={project.id}
-                className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                variants={cardVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-              >
-                <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map(tag => (
-                    <span
-                      key={tag}
-                      className="text-sm bg-purple-600 px-2 py-1 rounded-full text-white"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        ) : (
-          <motion.p
-            className="text-center text-gray-400"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
+            <FaExternalLinkAlt /> Live
+          </a>
+          <a
+            href="https://github.com/jessica-singh/jessify"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 px-4 py-1.5 bg-gray-800 hover:bg-gray-700 rounded-md text-white font-medium"
           >
-            No projects found for this category.
-          </motion.p>
-        )}
-      </AnimatePresence>
+            <FaGithub /> Code
+          </a>
+        </div>
+      </motion.div>
     </section>
   );
 };
