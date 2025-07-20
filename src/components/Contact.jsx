@@ -13,8 +13,7 @@ const Contact = () => {
     e.preventDefault();
 
     try {
-      await axios.post("https://srv-d1tncr3ipnbc73ch89l0.onrender.com/api/contact", formData);
-
+      await axios.post("https://portfolio-sdsu.onrender.com/api/contact", formData);
       alert('Message sent successfully!');
       setFormData({ name: '', email: '', message: '' });
     } catch (err) {
