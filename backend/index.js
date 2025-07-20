@@ -21,6 +21,7 @@ app.use(cors({
 
 app.use(express.json());
 
+// POST route to receive messages from contact form
 app.post('/api/contact', (req, res) => {
   const { name, email, message } = req.body;
 
@@ -31,7 +32,6 @@ app.post('/api/contact', (req, res) => {
     timestamp: new Date().toISOString(),
   };
 
-  // Save to a JSON file
   const filePath = './messages.json';
   const messages = fs.existsSync(filePath)
     ? JSON.parse(fs.readFileSync(filePath, 'utf-8'))
@@ -41,6 +41,17 @@ app.post('/api/contact', (req, res) => {
   fs.writeFileSync(filePath, JSON.stringify(messages, null, 2));
 
   res.status(200).json({ success: true });
+});
+
+// ✅ NEW: GET route to view stored messages
+app.get('/api/messages', (req, res) => {
+  const filePath = './messages.json';
+  if (fs.existsSync(filePath)) {
+    const messages = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    res.status(200).json(messages);
+  } else {
+    res.status(200).json([]);
+  }
 });
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
