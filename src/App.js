@@ -17,9 +17,9 @@ export default function App() {
         <Navbar />
         <main className="pt-16 px-4">
           <Hero />
+          <About />
           <Projects />
           <Skills />
-          <About />
           <Contact />
         </main>
       </div>

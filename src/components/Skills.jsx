@@ -8,6 +8,7 @@ const Skills = () => {
     const radius = 30;
 
     const nodes = [
+      
       { id: 'Python', group: 1 },
       { id: 'React', group: 2 },
       { id: 'JavaScript', group: 2 },
